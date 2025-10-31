@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QQS Biblionario</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon.png"> 
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon.png">
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico"> 
+</head>
+<body>
+
+    <div id="start-screen" class="screen active fade-target">
+        <audio id="background-music" loop autoplay></audio> 
+
+        <div class="screen-content">
+            
+            <div class="input-group">
+                <label for="player-name">Introduce tu Nombre:</label>
+                <input type="text" id="player-name" placeholder="Ej. David o María" required>
+            </div>
+            <div class="button-container">
+                <button id="start-btn" class="btn">Empezar Juego</button>
+                <button id="rules-btn" class="btn">Reglas</button>
+            </div>
+            
+        </div>
+    </div>
+
+    <div id="rules-screen" class="screen fade-target">
+        <div class="screen-content rules-box">
+            <h2>Reglas del Juego</h2>
+            <ul>
+                <li>El juego consta de 15 preguntas de dificultad ascendente.</li>
+                <li>Por cada pregunta acertada, acumularás puntos.</li>
+                <li>Tienes cuatro opciones de respuesta, pero solo una es correcta.</li>
+                <li>Selecciona una respuesta y luego presiona **"Revelar Respuesta"**.</li>
+                <li>Si tu respuesta es correcta, puedes pasar a la siguiente pregunta.</li>
+                <li>**Comodines:** Dispones de 50:50, Llamada y Audiencia.</li>
+            </ul>
+            <div class="button-container">
+                <button id="back-to-start-btn" class="btn">Volver al Inicio</button>
+                <button id="start-from-rules-btn" class="btn">Empezar Juego</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="game-screen" class="screen">
+        
+        <div id="rounds-container">
+            <button id="toggle-rounds-btn" class="btn btn-small">Ocultar Rondas ⬅️</button>
+            
+            <div id="rounds-content"> 
+                <h2>Rondas y Puntos</h2>
+                <ul id="rounds-list">
+                </ul>
+            </div>
+            
+        </div>
+
+        <div class="game-container">
+            
+            <div id="wildcards-container">
+                <button id="wildcard-50-50" class="wildcard-btn" data-type="50-50" title="Comodín 50:50">
+                    <i class="fa-solid fa-gem"></i> 
+                    <span>50:50</span>
+                </button>
+                <button id="wildcard-audience" class="wildcard-btn" data-type="audience" title="Comodín del Público">
+                    <i class="fa-solid fa-users"></i> 
+                    <span>Audiencia</span>
+                </button>
+                <button id="wildcard-call" class="wildcard-btn" data-type="call" title="Comodín de la Llamada">
+                    <i class="fa-solid fa-phone"></i> 
+                    <span>Llamada</span>
+                </button>
+            </div>
+
+            <div id="audience-poll" class="hidden">
+                <div class="poll-bar">A
+                    <div class="poll-percentage"></div>
+                </div>
+                <div class="poll-bar">B
+                    <div class="poll-percentage"></div>
+                </div>
+                <div class="poll-bar">C
+                    <div class="poll-percentage"></div>
+                </div>
+                <div class="poll-bar">D
+                    <div class="poll-percentage"></div>
+                </div>
+            </div>
+
+            <div id="phone-timer" class="hidden">
+                Tiempo Restante: <span id="timer-display">60</span>s
+            </div>
+            <div id="question-container">
+                <p id="question">Aquí va la pregunta</p>
+            </div>
+
+            <div class="answer-options" id="answer-options">
+                <button class="answer-btn" data-index="0"></button>
+                <button class="answer-btn" data-index="1"></button>
+                <button class="answer-btn" data-index="2"></button>
+                <button class="answer-btn" data-index="3"></button>
+            </div>
+            
+            <div id="controls">
+                <button id="reveal-btn" class="btn">Confirmar Respuesta</button>
+                <button id="next-btn" class="btn" style="display: none;">Siguiente Pregunta</button>
+
+                <button id="restart-fail-btn" class="btn restart-btn-fail" style="display: none;">Reiniciar</button>
+                <button id="back-to-start-fail-btn" class="btn back-to-start-fail-btn" style="display: none;">Inicio</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="win-screen" class="screen">
+        
+        <div id="fireworks-container">
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+        </div>
+        
+        <div id="rotating-circle"></div>
+
+        <div id="win-message" class="screen-content">
+            
+            <h1 id="win-title"></h1> 
+            
+            <p id="final-score-display"></p>
+            
+            <div class="button-container">
+                <button id="restart-win-btn" class="btn">Jugar de Nuevo</button>
+                <button id="back-to-start-win-btn" class="btn back-to-start-fail-btn">Ir a Inicio</button>
+            </div>
+        </div>
+    </div>
+    
+    <footer id="footer-copyright">
+        <p>&copy; 2025 Copyright. Desarrollado con 💙 por Samuel Elías.</p>
+    </footer>
+
+    <script src="script.js"></script> 
+</body>
+</html>
